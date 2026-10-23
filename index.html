@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Catalog</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ① 内輪ネタクイズ画面 -->
+  <div id="quiz-screen" class="quiz-container">
+    <div class="quiz-card">
+      <p class="eyebrow">SPECIAL GATE</p>
+      <h2>Birthday Quiz</h2>
+      <p>全5問 全部正解でカタログに入れるわ</p>
+      <div id="quiz-questions"></div>
+      <button type="button" id="submit-quiz-btn" class="action-button" style="margin-top: 20px; width: 100%;">答えを送信する</button>
+      <div id="quiz-error-msg" class="validation-message" style="display: none; margin-top: 15px;"></div>
+    </div>
+  </div>
+
+  <!-- カタログ本体（クイズ全問正解後に表示） -->
+  <div id="main-content" style="display: none;">
+    <header class="site-header">
+      <p class="eyebrow">YELLOW HATTORI</p>
+      <h1>Birthday Catalog</h1>
+      <p>お好きな商品を選んでください、組み合わせは無限大。</p>
+      <!-- 相談・掲示板モーダルボタン -->
+      <button type="button" id="open-chat-modal-btn" class="header-chat-btn">💬 価格相談・質問はこちら</button>
+    </header>
+
+    <div class="point-bar">
+      <span>現在のポイント</span>
+      <strong id="point-total">0 / 30 PT</strong>
+    </div>
+
+    <main id="catalog">
+      <p>商品データを読み込んでいます...</p>
+    </main>
+
+    <section class="order-confirmation" aria-labelledby="order-heading">
+      <h2 id="order-heading">注文内容の確認と送信</h2>
+      <p>選んだ商品とポイントを確認してから、注文確定または迷いログの送信に進んでください。</p>
+      
+      <!-- Web3Forms 注文確定フォーム -->
+      <form action="https://api.web3forms.com/submit" method="POST" id="orderForm">
+        <input type="hidden" name="access_key" value="d11b722f-baaa-4c5d-9649-5b5324baad88">
+        <input type="hidden" name="type" value="order">
+        <input type="hidden" name="subject" value="【Birthday Catalog】注文が確定しました！">
+        <input type="hidden" name="ordered_items" id="orderedItemsInput">
+        <input type="hidden" name="total_points" id="totalPointsInput">
+        <input type="hidden" name="action_history_log" id="orderActionLogInput">
+
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-weight: bold; margin-bottom: 6px;">お名前 / ニックネーム：</label>
+          <input type="text" name="name" required placeholder="お名前を入力してください" class="form-input">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-weight: bold; margin-bottom: 6px;">お祝いメッセージ・備考：</label>
+          <textarea name="message" rows="3" placeholder="メッセージがあれば入力してください" class="form-input"></textarea>
+        </div>
+
+        <button type="button" id="confirm-order">注文内容を確認して送信する</button>
+      </form>
+
+      <div id="order-status" role="status" aria-live="polite"></div>
+
+      <hr style="margin: 35px 0; border: none; border-top: 1px dashed #dfd1df;">
+
+      <!-- Web3Forms 操作履歴（迷いログ）送信専用フォーム -->
+      <form action="https://api.web3forms.com/submit" method="POST" id="historyForm">
+        <input type="hidden" name="access_key" value="d11b722f-baaa-4c5d-9649-5b5324baad88">
+        <input type="hidden" name="type" value="history">
+        <input type="hidden" name="subject" value="【Birthday Catalog】迷いログが送信されました！">
+        <input type="hidden" name="action_history_log" id="historyLogInput">
+
+        <p style="font-size: 0.88rem; color: #6d626d; margin-bottom: 12px;">※「注文前にどんな商品で迷っていたかだけ先に送りたい」場合はこちらを押してください。</p>
+        <button type="submit" id="send-history-btn" class="action-button" style="background: #8b788f;">📊 迷った履歴（ログ）だけ送信する</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- 価格相談モーダル ＆ 掲示板 -->
+  <div id="chat-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <h3 style="margin-top:0; color: #5d4564;">💬 価格相談・質問メッセージ</h3>
+      <p style="font-size: 0.88rem; color: #6d626d;">送信したメッセージは下の掲示板に手動で追加され、回答がつきます。反映までに時間がかかります。</p>
+
+      <!-- Web3Forms 相談・質問受信用フォーム -->
+      <form action="https://api.web3forms.com/submit" method="POST" id="consultForm" style="margin-bottom: 25px; text-align: left;">
+        <input type="hidden" name="access_key" value="d11b722f-baaa-4c5d-9649-5b5324baad88">
+        <input type="hidden" name="type" value="consultation">
+        <input type="hidden" name="subject" value="【Birthday Catalog】価格相談・質問が届きました！">
+
+        <label style="font-size: 0.85rem; font-weight: bold;">お名前・ニックネーム:</label>
+        <input type="text" name="name" required placeholder="例：匿名希望" class="form-input" style="margin-bottom: 10px;">
+
+        <label style="font-size: 0.85rem; font-weight: bold;">相談したい商品・質問内容:</label>
+        <textarea name="message" required rows="3" placeholder="例：Vtuberモデルの納期や要望について相談したいです" class="form-input"></textarea>
+
+        <button type="submit" class="action-button" style="margin-top: 10px; width: 100%; background: #65516e;">メッセージを送る</button>
+      </form>
+
+      <!-- 手動更新掲示板 -->
+      <div class="bulletin-board">
+        <h4 style="margin: 0 0 10px; color: #5d4564; text-align: left;">📌 掲示板（相談への返信一覧）</h4>
+        <div class="bulletin-list">
+          <div class="bulletin-item">
+            <p class="b-q">Q. 相談メッセージを送ると数時間後にここに回答が表示されるわ！</p>
+            <p class="b-a">A. 質問でも雑談でもいいぜ！</p>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <button type="button" id="close-chat-modal-btn" class="action-button" style="background: #ccc; color: #333; width: 100%;">閉じる</button>
+    </div>
+  </div>
+
+  <script src="data/products.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
