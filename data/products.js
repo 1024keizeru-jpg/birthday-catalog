@@ -1,5 +1,61 @@
 // birthday-catalog の商品データ
 const products = [
+  // ===== p.1 NEW ARRIVALS =====
+  {
+    id: "bismuth-small",
+    name: "NEW‼︎ ビスマス(小)",
+    points: 5,
+    page: 1,
+    category: "NEW ARRIVALS",
+    notes: [
+      "※小指の爪サイズです",
+      "骸晶が綺麗でない場合が多いです"
+    ]
+  },
+  {
+    id: "world-stone-gacha",
+    name: "NEW‼︎ せかいのいしガチャ",
+    points: 3,
+    page: 1,
+    category: "NEW ARRIVALS",
+    notes: [
+      "※近くのショッピングモールの天然石ガチャです。種類は選べません",
+      "自分がガチャを引きます。ガチャ運は期待しないでください。"
+    ]
+  },
+  {
+    id: "wooden-fan-kit",
+    name: "NEW‼︎ 組み立て木製ハンディ扇風機",
+    points: 4,
+    page: 1,
+    category: "NEW ARRIVALS",
+    notes: ["ショッピングモールの在庫次第で購入できなくなることがあります。注文はお早めに！"]
+  },
+  {
+    id: "water-balloon",
+    name: "NEW‼︎ 水ふうせん",
+    points: 1,
+    page: 1,
+    category: "NEW ARRIVALS",
+    notes: ["ショッピングモールにある在庫は残り５つです。注文はお早めに！"]
+  },
+  {
+    id: "eggplant-chopstick-rest",
+    name: "NEW‼︎ ナスの箸置き",
+    points: 1,
+    page: 1,
+    category: "NEW ARRIVALS",
+    notes: ["ショッピングモールにある在庫は残り１つです！注文はお早めに！"]
+  },
+  {
+    id: "bismuth-chip-100g",
+    name: "NEW‼︎ ビスマスチップ100g",
+    points: 16,
+    page: 1,
+    category: "NEW ARRIVALS",
+    notes: ["通販サイトから購入いたします。在庫には余裕があります。"]
+  },
+
   // ===== p.3 SCIENCE & WONDER =====
   { id: "galileo-thermometer", name: "ガリレオ温度計", points: 25, page: 3, category: "SCIENCE & WONDER", notes: [] },
   { id: "storm-glass", name: "ストームグラス", points: 18, page: 3, category: "SCIENCE & WONDER", notes: [] },
@@ -197,11 +253,10 @@ const products = [
   {
     id: "vtuber-model",
     name: "Vtuberモデル",
-    points: null,
+    points: 1,
     page: 10,
     category: "CREATIVE SERVICES",
-    notes: ["納期未定。メッセージフォームで価格を相談します。"],
-    special: "consult"
+    notes: ["納期未定。どんなデザインでも作成します。"]
   },
   { id: "hand-drawn-video", name: "手描き動画作成", points: 0.8, page: 10, category: "CREATIVE SERVICES", notes: ["納期未定。どんなキャラでもOKです。"] },
   { id: "desktop-mascot", name: "デスクトップマスコット", points: 0.7, page: 10, category: "CREATIVE SERVICES", notes: ["納期未定。ぽぴぃ。"] },
